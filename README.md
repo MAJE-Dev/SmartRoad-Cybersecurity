@@ -117,16 +117,19 @@ cybersecurity/
 └── evidencias/     # log de auditoria, antes/depois da IA, prints e vídeo
 ```
 
-## Critérios do professor → onde comprovar
-
-| Critério | Pts | Evidência |
-|---|---|---|
-| Robustez do motor de Parsing PII | 3,0 | `testes/test_cpf.py`, `test_detector.py` (positivos, negativos, bordas) |
-| Eficácia do Taint Analysis | 3,0 | `testes/test_taint.py`, `evidencias/taint_auditoria.log`, `prints_taint/` |
-| Inovação com IA na remediação | 2,0 | `evidencias/antes_depois_ia.md`, `ia/` |
-| Dashboard Executivo (Risco Cidadão) | 2,0 | `evidencias/dashboard_print.png` e vídeo |
-
 > **Nota:** nas rotas `/demo/*`, o erro **HTTP 500 é o resultado esperado**. Elas tentam vazar um dado
 > pessoal de propósito, e o sistema responde com 500 justamente porque **bloqueou o vazamento**
 > (o evento fica registrado na auditoria e aparece no dashboard). Resposta 200 só no cenário 2,
 > em que o CPF já vai mascarado.
+
+## ODS conectados e como o SmartRoad contribui
+
+| ODS | Meta relacionada | Como o SmartRoad contribui |
+|---|---|---|
+| **11** Cidades e comunidades sustentáveis | 11.2 (transporte e mobilidade acessíveis), 11.7 (espaços públicos seguros, inclusivos e acessíveis) | Os relatos dos moradores sobre calçadas, buracos, iluminação e segurança reduzem a nota de cada trecho, e a rota sugerida evita os piores. O espaço público passa a ser monitorado de forma colaborativa. |
+| **10** Redução das desigualdades | 10.2 (inclusão social, inclusive de pessoas com deficiência e idosos) | A rota considera o perfil de mobilidade (cadeirante, baixa visão, idoso, carrinho de bebê), para que quem tem mais dificuldade de deslocamento encontre um caminho viável. |
+| **3** Saúde e bem-estar | 3.6 (redução de acidentes no trânsito e de quedas em vias públicas) | Evitar trechos com buraco ou calçada quebrada e apontar os pontos mal iluminados reduz o risco de quedas e acidentes. |
+
+**Contribuição da camada de Cybersecurity:** a proteção de dados é o que torna a participação cidadã segura. O morador
+só relata e informa seu perfil de mobilidade (dado de saúde) se confiar que o CPF, a senha e o perfil não vazam.
+Por isso o módulo detecta dado pessoal, bloqueia vazamentos (Taint Analysis) e mostra o Risco Cidadão, em linha com a LGPD.
