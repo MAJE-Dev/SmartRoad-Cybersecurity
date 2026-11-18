@@ -17,7 +17,9 @@ def test_fluxo_completo(client):
     assert r.status_code == 201 and r.json()["cpf"] == "***.***.***-25"
 
     assert client.post("/cadastro", json={"cpf": CPF, "senha": "SenhaForte123"}).status_code == 409
-    assert client.post("/cadastro", json={"cpf": "111.111.111-11", "senha": "SenhaForte123"}).status_code == 422
+    r422 = client.post("/cadastro", json={"cpf": "111.111.111-11", "senha": "SenhaForte123"})
+    assert r422.status_code == 422
+    assert "111.111.111" not in r422.text  # o erro de validação não ecoa o dado digitado
     assert client.post("/login", json={"cpf": CPF, "senha": "errada"}).status_code == 401
 
     r = client.post("/login", json={"cpf": CPF, "senha": "SenhaForte123"})
@@ -45,3 +47,30 @@ def test_demo_vazamentos_bloqueados(client):
     assert client.get("/demo/vaza-senha-na-resposta").status_code == 500
     r = client.get("/demo/vaza-sem-sink")  # pego pelo middleware
     assert r.status_code == 500 and CPF not in r.text
+
+
+def test_swagger_e_openapi_nao_sao_bloqueados(client):
+    assert client.get("/openapi.json").status_code == 200
+    assert client.get("/docs").status_code == 200
+
+
+def test_exemplo_do_professor_documento_e_marcado_na_entrada_e_volta_mascarado(client):
+    from modulo_pii.auditoria import ler_eventos
+    from modulo_pii.risco import risco_cidadao
+
+    r = client.post("/demo/documento", json={"documento": "123.456.789-00"})
+    assert r.status_code == 200
+    assert r.json() == {"marcado_como": ["CPF"], "documento": "***.***.***-00"}
+    entradas = [e for e in ler_eventos() if e["destino"] == "entrada"]
+    assert entradas and "CPF" in entradas[-1]["tipos"]
+    assert "123.456" not in str(entradas[-1])      # a auditoria nunca guarda o valor
+    assert risco_cidadao(entradas) == 0
+
+
+def test_logger_info_direto_e_bloqueado_na_aplicacao(client, caplog):
+    import logging
+
+    with caplog.at_level(logging.INFO):
+        assert client.get("/demo/logger-direto").status_code == 200
+    assert "diabetes" not in caplog.text
+    assert "LOG BLOQUEADO" in caplog.text

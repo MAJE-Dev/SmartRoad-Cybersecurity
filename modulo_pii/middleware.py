@@ -3,18 +3,40 @@
 Mesmo que uma rota esqueça de usar sink_resposta, o corpo da resposta JSON é
 inspecionado. Se contiver PII, a resposta é trocada por 500 seguro e o evento é auditado.
 """
+import json
+
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse, Response
 
 from .auditoria import registrar_auditoria
 from .detector import detectar_pii
+from .entrada import marcar_payload
 
 
 ROTAS_DOCUMENTACAO = {"/docs", "/redoc", "/openapi.json", "/docs/oauth2-redirect"}
 
 
 class TaintMiddleware(BaseHTTPMiddleware):
+    async def _interceptar_entrada(self, request) -> None:
+        """Escaneia o JSON recebido, marca campos sensíveis (taint) e audita só nomes de campos/tipos."""
+        if request.method not in ("POST", "PUT", "PATCH"):
+            return
+        if "application/json" not in request.headers.get("content-type", ""):
+            return
+        try:
+            dados = json.loads(await request.body())
+        except ValueError:
+            return
+        marcado, campos = marcar_payload(dados)
+        request.state.payload_marcado = marcado
+        if campos:
+            tipos = sorted({t for _, ts in campos for t in ts})
+            nomes = ", ".join(c for c, _ in campos)
+            registrar_auditoria(f"{request.method} {request.url.path}", "entrada", tipos, False,
+                                f"campos sensiveis marcados (taint): {nomes}")
+
     async def dispatch(self, request, call_next):
+        await self._interceptar_entrada(request)
         resp = await call_next(request)
         # A documentação gerada pelo FastAPI descreve os campos (ex.: "cadeirante") e não carrega
         # dado de cidadão: inspecioná-la gera falso positivo e quebra o Swagger.

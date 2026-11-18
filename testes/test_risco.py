@@ -24,3 +24,11 @@ def test_niveis():
 def test_resumo():
     r = resumo([ev(["CPF"], "log", True), ev([], "api", False), ev(["SENHA"], "api", False)])
     assert r["bloqueados"] == 1 and r["vazados"] == 1 and r["por_tipo"] == {"CPF": 1, "SENHA": 1}
+
+
+def test_entrada_marcada_nao_pesa_no_risco_nem_conta_como_vazamento():
+    ent = {"tipos": ["CPF", "SENHA"], "destino": "entrada", "bloqueado": False}
+    assert risco_cidadao([ent]) == 0
+    r = resumo([ent])
+    assert r["vazados"] == 0 and r["bloqueados"] == 0
+    assert r["entradas_marcadas"] == 1 and r["por_tipo"] == {"CPF": 1, "SENHA": 1}

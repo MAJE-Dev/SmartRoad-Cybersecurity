@@ -32,13 +32,17 @@ def main():
         linha("2) CPF mascarado -> LOG                 (PERMITIDO)", c.get("/demo/cpf-mascarado-no-log"), 200)
         linha("3) Senha -> RESPOSTA da API             (BLOQUEADO)", c.get("/demo/vaza-senha-na-resposta"), 500)
         linha("4) Rota sem sink -> middleware          (BLOQUEADO)", c.get("/demo/vaza-sem-sink"), 500)
+        linha("5) logger.info direto com PII           (LOG BLOQUEADO)", c.get("/demo/logger-direto"), 200)
+        r6 = linha("6) JSON documento (exemplo do professor)  (MARCADO)", c.post(
+            "/demo/documento", json={"documento": "123.456.789-00"}), 200)
+        print("   resposta:", r6.json())
 
         print("\n=== Fluxo real do SmartRoad ===")
         c.post("/cadastro", json={"cpf": CPF, "senha": "SenhaForte123", "perfil_mobilidade": "cadeirante"})
         tk = c.post("/login", json={"cpf": CPF, "senha": "SenhaForte123"}).json().get("token", "")
         c.post("/login", json={"cpf": CPF, "senha": "errada"})
         h = {"Authorization": f"Bearer {tk}"}
-        r = linha("5) Relato com CPF no texto -> publicado MASCARADO", c.post(
+        r = linha("7) Relato com CPF no texto -> publicado MASCARADO", c.post(
             "/relatos", headers=h, json={"tipo": "buraco", "trecho": "B-C",
                                          "descricao": f"Buraco grande, sou cadeirante. Meu cpf é {CPF}"}), 201)
         print("   publicado:", r.json().get("descricao_publicada"))

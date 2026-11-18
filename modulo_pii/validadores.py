@@ -16,3 +16,15 @@ def cpf_valido(cpf: str) -> bool:
         if (soma * 10) % 11 % 10 != int(n[i]):
             return False
     return True
+
+
+_CPF_FORMATADO = re.compile(r"\d{3}\.\d{3}\.\d{3}-\d{2}")
+
+
+def cpf_formatado(cpf: str) -> bool:
+    """True se o texto tem o formato ###.###.###-## (mesmo com dígito verificador inválido).
+
+    Um número nesse formato específico é, quase sempre, uma tentativa de informar CPF:
+    em dado sensível preferimos falso positivo a falso negativo.
+    """
+    return bool(_CPF_FORMATADO.fullmatch(cpf.strip()))

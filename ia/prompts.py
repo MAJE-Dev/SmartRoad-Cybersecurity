@@ -6,6 +6,6 @@ Tipo de dado exposto: {tipos}
 Onde ocorreu: {onde}
 Gravidade: {gravidade}
 
-Explique em NO MÁXIMO 3 frases curtas:
-1) o que aconteceu, 2) qual o risco real para a pessoa, 3) o que o sistema já fez ou o que ela deve fazer.
+Traduza a falha técnica acima para um cidadão leigo de 60 anos, em 2 frases curtas:
+a primeira diz o que aconteceu e o risco real para a pessoa; a segunda diz o que o sistema já fez ou o que ela deve fazer.
 Não invente dados e não peça informações pessoais."""

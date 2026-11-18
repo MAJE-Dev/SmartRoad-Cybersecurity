@@ -21,12 +21,32 @@ if st.button("🔄 Atualizar"):
 eventos = ler_eventos()
 r = resumo(eventos)
 
-cores = {"Baixo": "🟢", "Médio": "🟡", "Alto": "🟠", "Crítico": "🔴"}
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Risco Cidadão", f"{r['score']}/100", f"{cores[r['nivel']]} {r['nivel']}", delta_color="off")
+# Farol de risco: verde (Baixo) · amarelo (Médio) · vermelho (Alto/Crítico)
+FAROL = {"Baixo": 0, "Médio": 1, "Alto": 2, "Crítico": 2}
+CORES = ["#2ecc71", "#f1c40f", "#e74c3c"]
+ROTULO = {0: "Risco BAIXO", 1: "Risco MÉDIO", 2: "Risco ALTO"}
+
+
+def farol_html(nivel: str) -> str:
+    ativo = FAROL[nivel]
+    bolas = ""
+    for i, cor in enumerate(CORES):
+        fundo = cor if i == ativo else "#3a3a3a"
+        brilho = f"0 0 18px {cor}" if i == ativo else "none"
+        bolas += (f'<span style="display:inline-block;width:44px;height:44px;border-radius:50%;'
+                  f'margin-right:12px;background:{fundo};box-shadow:{brilho}"></span>')
+    return (f'<div style="font-size:14px;opacity:.7;margin-bottom:6px">Farol de risco</div>'
+            f'<div>{bolas}</div>'
+            f'<div style="margin-top:8px;font-weight:700;color:{CORES[ativo]}">{ROTULO[ativo]} · {nivel}</div>')
+
+
+c0, c1, c2, c3, c4, c5 = st.columns([1.6, 1, 1, 1, 1, 1])
+c0.markdown(farol_html(r["nivel"]), unsafe_allow_html=True)
+c1.metric("Risco Cidadão", f"{r['score']}/100")
 c2.metric("Vazamentos bloqueados", r["bloqueados"])
 c3.metric("Vazamentos ocorridos", r["vazados"])
-c4.metric("Eventos auditados", r["total_eventos"])
+c4.metric("Campos marcados na entrada", r["entradas_marcadas"])
+c5.metric("Eventos auditados", r["total_eventos"])
 st.progress(r["score"] / 100)
 
 esq, dir_ = st.columns(2)
@@ -38,7 +58,7 @@ with esq:
         st.info("Nenhuma PII detectada ainda. Rode `python scripts/cenarios_demo.py`.")
 with dir_:
     st.subheader("Último alerta (traduzido para o cidadão)")
-    com_pii = [e for e in eventos if e.get("tipos")]
+    com_pii = [e for e in eventos if e.get("tipos") and e.get("destino") != "entrada"]
     if com_pii:
         ultimo = com_pii[-1]
         alerta = traduzir_alerta(ultimo)
@@ -49,5 +69,9 @@ with dir_:
         st.success("Sem alertas.")
 
 st.subheader("Trilha de auditoria (sem dados sensíveis)")
+somente_pii = st.checkbox("Mostrar só eventos com dado pessoal", value=True)
 if eventos:
-    st.dataframe(pd.DataFrame(eventos[::-1]).head(50), use_container_width=True, hide_index=True)
+    df = pd.DataFrame(eventos[::-1])
+    if somente_pii:
+        df = df[df["tipos"].map(bool)]
+    st.dataframe(df.head(50), use_container_width=True, hide_index=True)

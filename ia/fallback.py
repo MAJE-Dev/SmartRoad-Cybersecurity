@@ -1,6 +1,7 @@
 """Textos fixos usados quando a LLM está desligada, sem chave ou fora do ar."""
 
 RISCO = {
+    "RG": "Seu RG poderia ser usado por golpistas para se passar por você.",
     "CPF": "Seu CPF poderia ser usado por golpistas para abrir contas ou fazer compras em seu nome.",
     "SENHA": "Sua senha poderia dar acesso à sua conta a outras pessoas.",
     "SAUDE": "Sua informação de saúde ou mobilidade é privada e não deve ser vista por terceiros.",

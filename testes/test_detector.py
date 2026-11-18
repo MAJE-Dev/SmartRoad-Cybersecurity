@@ -11,8 +11,13 @@ def test_cpf_com_e_sem_pontuacao():
     assert "CPF" in tipos("cpf 52998224725 ok")
 
 
-def test_cpf_invalido_nao_e_pii():
-    assert "CPF" not in tipos("protocolo 123.456.789-00")  # dígito verificador não bate
+def test_cpf_com_pontuacao_e_detectado_mesmo_com_digito_invalido():
+    # exemplo do PDF do professor: 123.456.789-00 (dígito verificador inválido)
+    assert "CPF" in tipos("documento: 123.456.789-00")
+
+
+def test_numero_de_11_digitos_sem_pontuacao_e_digito_invalido_nao_e_cpf():
+    assert "CPF" not in tipos("protocolo 12345678900")
 
 
 def test_numero_longo_nao_vira_cpf():
@@ -56,3 +61,16 @@ def test_mascara_cpf():
 def test_achado_publico_sem_trecho():
     a = detectar_pii("cpf 529.982.247-25")[0]
     assert "trecho" not in a.publico()
+
+
+def test_nenhuma_mascara_e_redetectada_como_pii():
+    """A máscara não pode disparar o próprio detector (senão o sink bloqueia a resposta já sanitizada)."""
+    from modulo_pii.sanitizers import mascarar_generico
+
+    for tipo in ("CPF", "RG", "SENHA", "EMAIL", "SAUDE", "TELEFONE", "OUTRO"):
+        assert detectar_pii(mascarar_generico("529.982.247-25", tipo)) == [], tipo
+
+
+def test_texto_sanitizado_completo_nao_tem_pii():
+    limpo, achados = sanitizar_texto("Buraco grande, sou cadeirante. Meu cpf é 529.982.247-25, RG: 12.345.678-9")
+    assert achados and detectar_pii(limpo) == []

@@ -16,12 +16,14 @@ def mascarar_cpf(cpf: str) -> str:
 def mascarar_generico(valor: str, tipo: str = "") -> str:
     if tipo == "CPF":
         return mascarar_cpf(valor)
+    if tipo == "RG":
+        return "[RG REMOVIDO]"
     if tipo == "SENHA":
         return "[SENHA REMOVIDA]"
     if tipo == "EMAIL":
         return "[EMAIL REMOVIDO]"
     if tipo == "SAUDE":
-        return "[DADO DE SAÚDE REMOVIDO]"
+        return "[INFO SENSÍVEL REMOVIDA]"
     if tipo == "TELEFONE":
         return "[TELEFONE REMOVIDO]"
     return "[REMOVIDO]"
