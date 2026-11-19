@@ -6,6 +6,7 @@ NÃO fazem parte da funcionalidade do SmartRoad e devem ser desligadas em produ�
 import logging
 
 from fastapi import APIRouter, Request
+from pydantic import BaseModel, Field
 
 from modulo_pii.sanitizers import mascarar_cpf, mascarar_generico
 from modulo_pii.sinks import sink_log, sink_resposta
@@ -57,8 +58,13 @@ def logger_direto():
     return {"ok": True, "obs": "o logger.info foi interceptado; confira a auditoria"}
 
 
+class DocumentoIn(BaseModel):
+    """Corpo de exemplo (aparece editável no Swagger). O exemplo é o do PDF do professor."""
+    documento: str = Field(examples=["123.456.789-00"])
+
+
 @router.post("/documento")
-async def documento(request: Request):
+async def documento(dados: DocumentoIn, request: Request):
     """Cenário 6 (exemplo do professor): JSON com a chave 'documento' é marcado como PII na ENTRADA
     e só volta mascarado.  Teste com: {"documento": "123.456.789-00"}"""
     marcado = getattr(request.state, "payload_marcado", {}) or {}
