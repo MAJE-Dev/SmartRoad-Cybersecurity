@@ -1,20 +1,28 @@
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/vaza-cpf-no-log", "destino": "log", "tipos": ["CPF"], "bloqueado": true, "detalhe": "saída com PII bloqueada"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/vaza-cpf-no-log", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/cpf-mascarado-no-log", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/cpf-mascarado-no-log", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/vaza-senha-na-resposta", "destino": "api", "tipos": ["SENHA"], "bloqueado": true, "detalhe": "saída com PII bloqueada"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/vaza-senha-na-resposta", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /demo/vaza-sem-sink", "destino": "api", "tipos": ["CPF"], "bloqueado": true, "detalhe": "middleware bloqueou resposta com PII"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /cadastro", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /login", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /login", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /relatos", "destino": "banco", "tipos": ["CPF", "SAUDE"], "bloqueado": true, "detalhe": "texto cru bloqueado; versão mascarada publicada"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /rota", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
-{"ts": "2026-11-09T23:54:17+00:00", "origem": "GET /rota", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/vaza-cpf-no-log", "destino": "log", "tipos": ["CPF"], "bloqueado": true, "detalhe": "saída com PII bloqueada"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/vaza-cpf-no-log", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/cpf-mascarado-no-log", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/cpf-mascarado-no-log", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/vaza-senha-na-resposta", "destino": "api", "tipos": ["SENHA"], "bloqueado": true, "detalhe": "saída com PII bloqueada"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/vaza-senha-na-resposta", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/vaza-sem-sink", "destino": "api", "tipos": ["CPF"], "bloqueado": true, "detalhe": "middleware bloqueou resposta com PII"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "GET /demo/logger-direto", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "POST /demo/documento", "destino": "entrada", "tipos": ["CPF"], "bloqueado": false, "detalhe": "campos sensiveis marcados (taint): documento"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "POST /demo/documento", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "POST /demo/documento", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:11+00:00", "origem": "POST /cadastro", "destino": "entrada", "tipos": ["CPF", "SAUDE", "SENHA"], "bloqueado": false, "detalhe": "campos sensiveis marcados (taint): cpf, senha, perfil_mobilidade"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /cadastro", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "entrada", "tipos": ["CPF", "SENHA"], "bloqueado": false, "detalhe": "campos sensiveis marcados (taint): cpf, senha"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "entrada", "tipos": ["CPF", "SENHA"], "bloqueado": false, "detalhe": "campos sensiveis marcados (taint): cpf, senha"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "log", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /login", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "entrada", "tipos": ["CPF", "SAUDE"], "bloqueado": false, "detalhe": "campos sensiveis marcados (taint): descricao"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "banco", "tipos": ["CPF", "SAUDE"], "bloqueado": true, "detalhe": "texto cru bloqueado; versão mascarada publicada"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "POST /relatos", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "GET /rota", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "saída limpa permitida"}
+{"ts": "2026-11-19T06:37:12+00:00", "origem": "GET /rota", "destino": "api", "tipos": [], "bloqueado": false, "detalhe": "resposta limpa"}
